@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Navbar(props) {
-  
   const classes = useStyles();
+  // console.log(props)
 
   return (
     <div className={classes.root}>
@@ -40,9 +40,21 @@ export default function Navbar(props) {
             </Button>
           </Typography>
 
-          <Button color="inherit" component={Link} to="/login">
-            Login
-          </Button>
+          {props.token !== null ? ((
+            <Button color="inherit" onClick={props.handleLogout}>
+              Logout
+            </Button>
+          )) : 
+          <>
+            <Button color="inherit" component={Link} to="/login">
+              Login
+            </Button>
+            <Button color="inherit" component={Link} to="/signup">
+              Signup
+            </Button>
+          </>
+          }
+
         </Toolbar>
       </AppBar>
     </div>

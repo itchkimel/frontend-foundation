@@ -11,9 +11,9 @@ export default function Home() {
       {/* <img src={backgroundImg} alt="background" /> */}
       {/* <Button variant="contained" style={{justifyContent: 'center'}} >
         Click me
-      </Button> */}
+        </Button> */}
       {/* <Paper style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: "cover"
-}} >hello</Paper> */}
+        }} >hello</Paper> */}
     </>
   );
 }

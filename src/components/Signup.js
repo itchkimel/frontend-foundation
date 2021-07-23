@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import {
-  Button,
-  TextField,
-  Grid,
-  Paper,
-  AppBar,
-  Typography,
-  Toolbar,
-} from "@material-ui/core";
+import { Button, TextField, Grid, Paper, AppBar, Typography, Toolbar} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,9 +23,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Login(props) {
+export default function Signup({ setUser }) {
   const classes = useStyles();
   const history = useHistory();
+
 
   const [formData, setFormData] = useState({
     name: "",
@@ -47,7 +40,7 @@ export default function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:3000/login", {
+    fetch("http://localhost:3000/signup", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,13 +50,12 @@ export default function Login(props) {
       .then((r) => r.json())
       .then((data) => {
         // console.log(data);
-        if (data.error) {
-          alert(data.error);
+        if (data.errors) {
+          alert(data.errors);
         } else {
           const { user, token } = data;
-          localStorage.setItem("token", token)
-          props.setToken(token);
-          props.setUser(user);
+          localStorage.setItem("token", token);
+          setUser(user);
           history.push("/");
         }
       });
@@ -102,7 +94,7 @@ export default function Login(props) {
           Cancel
         </Button>
         <Button type="submit" variant="contained" color="primary">
-          Login
+          Signup
         </Button>
       </div>
     </form>
