@@ -40,21 +40,20 @@ export default function Navbar(props) {
             </Button>
           </Typography>
 
-          {props.token !== null ? ((
+          {props.token !== null ? (
             <Button color="inherit" onClick={props.handleLogout}>
               Logout
             </Button>
-          )) : 
-          <>
-            <Button color="inherit" component={Link} to="/login">
-              Login
-            </Button>
-            <Button color="inherit" component={Link} to="/signup">
-              Signup
-            </Button>
-          </>
-          }
-
+          ) : (
+            <>
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
+              <Button color="inherit" component={Link} to="/signup">
+                Signup
+              </Button>
+            </>
+          )}
         </Toolbar>
       </AppBar>
     </div>

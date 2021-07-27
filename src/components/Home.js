@@ -1,20 +1,24 @@
-import React from 'react';
-import { Paper, Button } from '@material-ui/core';
+import React from "react";
+import PropTypes from "prop-types";
 
-import backgroundImg from '../assets/background.jpeg';
+Home.propTypes = {};
 
-export default function Home() {
-
+export default function Home(props) {
   return (
-    <>
-      hello from Home
-      {/* <img src={backgroundImg} alt="background" /> */}
-      {/* <Button variant="contained" style={{justifyContent: 'center'}} >
-        Click me
-        </Button> */}
-      {/* <Paper style={{ backgroundImage: `url(${backgroundImg})`, backgroundSize: "cover"
-        }} >hello</Paper> */}
-    </>
+    <div>
+      {props.token === null ? null : (
+        <>
+          <h1>
+            {" "}
+            Welcome to The Foundation. In memory of the late Jack Welshler
+          </h1>
+          <h3>
+            We are a non-profit organization dedicated to providing financial
+            help to the community.
+          </h3>
+          <h2>Please Login or Signup to continue and submit request</h2>
+        </>
+      )}
+    </div>
   );
 }
-

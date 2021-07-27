@@ -56,7 +56,7 @@ export default function Signup({ setUser }) {
           const { user, token } = data;
           localStorage.setItem("token", token);
           setUser(user);
-          history.push("/");
+          history.push("/request-form");
         }
       });
   }

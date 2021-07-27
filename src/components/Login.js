@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+
 export default function Login(props) {
   const classes = useStyles();
   const history = useHistory();
@@ -64,7 +66,7 @@ export default function Login(props) {
           localStorage.setItem("token", token)
           props.setToken(token);
           props.setUser(user);
-          history.push("/");
+          history.push("/request-form");
         }
       });
   }

@@ -2,15 +2,16 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
-import Login from "./components/Login";
 import Home from "./components/Home";
+import Login from "./components/Login";
+import RequestForm from "./components/RequestForm";
 import Signup from "./components/Signup";
 import "./App.css";
 
 export default function App() {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
-  
+
   // console.log(user);
   // console.log(token);
 
@@ -46,19 +47,35 @@ export default function App() {
   return (
     <>
       <Router>
-        <Route render={(routerProps) => <Navbar routerProps={routerProps} token={token} handleLogout={handleLogout}  />} />
+        <Route
+          render={(routerProps) => (
+            <Navbar
+              routerProps={routerProps}
+              token={token}
+              handleLogout={handleLogout}
+            />
+          )}
+        />
+
         <Switch>
-          <Route exact path="/login"
-            render={(routerProps) => <Login setUser={setUser} setToken={setToken} />}
+          <Route
+            exact path="/login"
+            render={(routerProps) => (
+              <Login setUser={setUser} setToken={setToken} />
+            )}
           />
 
-          <Route exact path="/signup"
+          <Route
+            exact path="/signup"
             render={(routerProps) => <Signup setUser={setUser} />}
           />
 
-          <Route exact path="/">
-            <Home />
-          </Route>
+          <Route
+            exact path="/request-form"
+            render={(routerProps) => <RequestForm token={token} />}
+          />
+
+          <Route path="/" render={(routerProps) => <Home setToken={setToken} />} />
 
           <Route>
             <div>404 No matching URL</div>
@@ -68,4 +85,3 @@ export default function App() {
     </>
   );
 }
-
