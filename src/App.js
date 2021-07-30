@@ -1,19 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useHistory } from "react-router";
 
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import RequestForm from "./components/RequestForm";
 import Signup from "./components/Signup";
+import RequestForm from "./components/RequestForm";
+import RequestList from "./components/RequestList";
 import "./App.css";
 
 export default function App() {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-
-  // console.log(user);
-  // console.log(token);
+  const [user, setUser] = useState({});
+  const [token, setToken] = useState("");
+  const [class_name, setClassName] = useState("");
+  const history = useHistory();
 
   // auto-login feature!
   useEffect(() => {
@@ -27,61 +28,78 @@ export default function App() {
         },
       })
         .then((r) => r.json())
-        .then((user) => {
-          // save that user in state
-          setUser(user);
-          // save that token in state
-          setToken(token);
-        });
+        .then(handleResponse)
     }
-  }, []);
+  }, [])
+
+  function handleResponse(data) {
+    if (data.error) {
+      alert(data.error)
+    } else {
+      const { user, token, class_name } = data
+      history.push("/request-form");
+      // save that user in state
+      setUser(user)
+      // save that token in state
+      localStorage.setItem("token", token)
+      setToken(token)
+      // save that className in state
+      setClassName(class_name)
+    }
+  }
 
   function handleLogout() {
     // clear the token
-    localStorage.removeItem("token");
-    setToken(null);
-    // clear the user
-    setUser(null);
+    localStorage.removeItem("token")
+    setToken("")
+    // clear the use
+    setUser({});
+    setClassName("")
+    history.push("/")
   }
 
   return (
     <>
-      <Router>
+      <Route
+        render={(routerProps) => (
+          <Navbar
+            routerProps={routerProps}
+            token={token}
+            handleLogout={handleLogout}
+          />
+        )}
+      />
+
+      <Switch>
         <Route
-          render={(routerProps) => (
-            <Navbar
-              routerProps={routerProps}
-              token={token}
-              handleLogout={handleLogout}
-            />
-          )}
+          exact path="/login"
+          render={(routerProps) => <Login handleResponse={handleResponse} />}
         />
 
-        <Switch>
-          <Route
-            exact path="/login"
-            render={(routerProps) => (
-              <Login setUser={setUser} setToken={setToken} />
-            )}
-          />
+        <Route
+          exact path="/signup"
+          render={(routerProps) => <Signup handleResponse={handleResponse} />}
+        />
 
-          <Route
-            exact path="/signup"
-            render={(routerProps) => <Signup setUser={setUser} />}
-          />
+        <Route
+          exact path="/request-form"
+          render={(routerProps) => <RequestForm token={token} />}
+        />
 
-          <Route
-            exact path="/request-form"
-            render={(routerProps) => <RequestForm token={token} />}
-          />
+        <Route
+          exact path="/request-list"
+          render={(routerProps) => <RequestList token={token} />}
+        />
 
-          <Route path="/" render={(routerProps) => <Home setToken={setToken} />} />
+        <Route
+          path="/"
+          render={(routerProps) => <Home setToken={setToken} />}
+        />
 
-          <Route>
-            <div>404 No matching URL</div>
-          </Route>
-        </Switch>
-      </Router>
+        <Route>
+          <div>404 No matching URL</div>
+        </Route>
+      </Switch>
     </>
   );
 }

@@ -1,15 +1,20 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import algoliasearch from 'algoliasearch/lite';
+import { InstantSearch } from 'react-instantsearch-dom';
+import Places from "../algolia/widget";
+
+
 import {
   Button,
   TextField,
   MenuItem,
   Select,
   InputLabel,
+  makeStyles
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+// import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +34,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function RequestForm(props) {
+const searchClient = algoliasearch(
+  'latency',
+  '6be0576ff61c053d5f9a3225e2a90f76'
+);
+
+export default function RequestForm (props) {
   console.log(props.token);
   const classes = useStyles();
   const history = useHistory();
@@ -37,18 +47,13 @@ export default function RequestForm(props) {
     name: "",
     email: "",
     telephone: "",
-    address_number: 0,
-    address_street: "",
-    address_city: "",
-    address_state: "",
-    address_country: "",
-    address_zip: "",
     marital_status: "",
     children: 0,
     work: "",
     reason_header: "",
     reason_body: "",
     amount: 0,
+    auto_address: ""
   });
 
   function handleChange(e) {
@@ -61,7 +66,7 @@ export default function RequestForm(props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${props.token}`
+        "Authorization": `Bearer ${localStorage.token}`
       },
       body: JSON.stringify(formData),
     })
@@ -104,57 +109,6 @@ export default function RequestForm(props) {
         value={formData.telephone}
         onChange={handleChange}
       />
-      <TextField
-        name="address_number"
-        label="Address Number"
-        variant="filled"
-        type="number"
-        InputProps={{ inputProps: { min: 0 } }}
-        required
-        value={formData.address_number}
-        onChange={handleChange}
-      />
-      <TextField
-        name="address_street"
-        label="Street"
-        variant="filled"
-        required
-        value={formData.address_street}
-        onChange={handleChange}
-      />
-      <TextField
-        name="address_city"
-        label="City"
-        variant="filled"
-        required
-        value={formData.address_city}
-        onChange={handleChange}
-      />
-      <TextField
-        name="address_state"
-        label="State"
-        variant="filled"
-        required
-        value={formData.address_state}
-        onChange={handleChange}
-      />
-      <TextField
-        name="address_country"
-        label="Country"
-        variant="filled"
-        required
-        value={formData.address_country}
-        onChange={handleChange}
-      />
-      <TextField
-        name="address_zip"
-        label="Zip"
-        variant="filled"
-        required
-        value={formData.address_zip}
-        onChange={handleChange}
-      />
-      {/* <FormControl className={classes.formControl}> */}
       <InputLabel id="marital_status">Marital Status</InputLabel>
       <Select
         name="marital_status"
@@ -168,7 +122,6 @@ export default function RequestForm(props) {
         <MenuItem value={"seperated"}>Seperated</MenuItem>
         <MenuItem value={"single"}>Single</MenuItem>
       </Select>
-      {/* </FormControl> */}
 
       <TextField
         name="children"
@@ -188,7 +141,7 @@ export default function RequestForm(props) {
         value={formData.work}
         onChange={handleChange}
       />
-            <TextField
+      <TextField
         name="reason_header"
         label="Request"
         placeholder="Please give a header for the request"
@@ -216,14 +169,23 @@ export default function RequestForm(props) {
         value={formData.amount}
         onChange={handleChange}
       />
-      <div>
+      <div name="auto_address" required value={formData.auto_address} onChange={handleChange}>
+      <InstantSearch onSelect={console.log} searchClient={searchClient}>
+        <Places
+          defaultRefinement={{
+            lat: 37.7793,
+            lng: -122.419
+          }}
+          handleChange={handleChange}
+          />
+      </InstantSearch>
+      </div>
         {/* <Button variant="contained" component={Link} to="/">
           Review
         </Button> */}
         <Button type="submit" variant="contained" color="primary">
           Submit Request
         </Button>
-      </div>
     </form>
   );
 }

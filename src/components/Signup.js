@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import { useForm } from "react-hook-form";
-import { Button, TextField, Grid, Paper, AppBar, Typography, Toolbar} from "@material-ui/core";
+// import { useForm } from "react-hook-form";
+import { Button, TextField} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Signup({ setUser }) {
+export default function Signup(props) {
   const classes = useStyles();
   const history = useHistory();
 
@@ -48,17 +48,20 @@ export default function Signup({ setUser }) {
       body: JSON.stringify(formData),
     })
       .then((r) => r.json())
-      .then((data) => {
-        // console.log(data);
-        if (data.errors) {
-          alert(data.errors);
-        } else {
-          const { user, token } = data;
-          localStorage.setItem("token", token);
-          setUser(user);
-          history.push("/request-form");
-        }
-      });
+      .then(props.handleResponse, 
+        history.push("/request-form")
+      //   (data) => {
+      //   // console.log(data);
+      //   if (data.errors) {
+      //     alert(data.errors);
+      //   } else {
+      //     const { user, token } = data;
+      //     localStorage.setItem("token", token);
+      //     setUser(user);
+      //     history.push("/request-form");
+      //   }
+      // }
+      );
   }
 
   return (

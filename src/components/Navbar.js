@@ -5,10 +5,10 @@ import {
   Toolbar,
   Typography,
   Button,
-  IconButton,
+  // IconButton,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
+// import MenuIcon from "@material-ui/icons/Menu";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Navbar(props) {
   const classes = useStyles();
-  // console.log(props)
 
   return (
     <div className={classes.root}>
@@ -40,10 +39,15 @@ export default function Navbar(props) {
             </Button>
           </Typography>
 
-          {props.token !== null ? (
-            <Button color="inherit" onClick={props.handleLogout}>
-              Logout
-            </Button>
+          {props.token !== "" ? (
+            <>
+              <Button color="inherit" component={Link} to="/request-list">
+                Your Requests
+              </Button>
+              <Button color="inherit" onClick={props.handleLogout}>
+                Logout
+              </Button>
+            </>
           ) : (
             <>
               <Button color="inherit" component={Link} to="/login">
