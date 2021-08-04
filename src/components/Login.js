@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 // import { useForm } from "react-hook-form";
-import { Button, TextField } from "@material-ui/core";
+import { Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,6 +31,7 @@ export default function Login(props) {
     name: "",
     email: "",
     password: "",
+    user: "User"
   });
 
   function handleChange(e) {
@@ -39,15 +40,28 @@ export default function Login(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    fetch("http://localhost:3000/users/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((r) => r.json())
-      .then(props.handleResponse);
+    if (formData.user === "User") {
+      fetch("http://localhost:3000/users/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+        .then((r) => r.json())
+        .then(props.handleResponse);
+    } else {
+      alert("User is Admin");
+      // fetch("http://localhost:3000/users/login", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // })
+      //   .then((r) => r.json())
+      //   .then(props.handleResponse);    
+    }
   }
 
   return (
@@ -78,6 +92,12 @@ export default function Login(props) {
         value={formData.password}
         onChange={handleChange}
       />
+      <FormControl component="fieldset">
+        <RadioGroup name="user" value={formData.user} onChange={handleChange}>
+          <FormControlLabel value="User" control={<Radio />} label="User" />
+          <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
+        </RadioGroup>
+      </FormControl>
       <div>
         <Button variant="contained" component={Link} to="/">
           Cancel

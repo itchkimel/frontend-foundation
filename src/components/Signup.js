@@ -50,17 +50,6 @@ export default function Signup(props) {
       .then((r) => r.json())
       .then(props.handleResponse, 
         history.push("/request-form")
-      //   (data) => {
-      //   // console.log(data);
-      //   if (data.errors) {
-      //     alert(data.errors);
-      //   } else {
-      //     const { user, token } = data;
-      //     localStorage.setItem("token", token);
-      //     setUser(user);
-      //     history.push("/request-form");
-      //   }
-      // }
       );
   }
 

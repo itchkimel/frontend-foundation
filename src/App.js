@@ -11,11 +11,11 @@ import RequestList from "./components/RequestList";
 import "./App.css";
 
 export default function App() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({requests: []});
   const [token, setToken] = useState("");
   const [class_name, setClassName] = useState("");
   const history = useHistory();
-
+  
   // auto-login feature!
   useEffect(() => {
     // check if the user has already logged in
@@ -27,11 +27,11 @@ export default function App() {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((r) => r.json())
-        .then(handleResponse)
+      .then((r) => r.json())
+      .then(handleResponse)
     }
   }, [])
-
+  
   function handleResponse(data) {
     if (data.error) {
       alert(data.error)
@@ -47,17 +47,23 @@ export default function App() {
       setClassName(class_name)
     }
   }
-
+  
   function handleLogout() {
     // clear the token
     localStorage.removeItem("token")
     setToken("")
     // clear the use
-    setUser({});
+    setUser({requests: []});
     setClassName("")
     history.push("/")
   }
 
+  function handleRequest(req) {
+    // copying state then 
+  let copyOfUser = {...user, requests: [...user.requests, req]}
+  setUser(copyOfUser)
+  }
+  
   return (
     <>
       <Route
@@ -83,12 +89,12 @@ export default function App() {
 
         <Route
           exact path="/request-form"
-          render={(routerProps) => <RequestForm token={token} />}
+          render={(routerProps) => <RequestForm token={token} handleRequest={handleRequest} />}
         />
 
         <Route
           exact path="/request-list"
-          render={(routerProps) => <RequestList token={token} />}
+          render={(routerProps) => <RequestList {...user} token={token} />}
         />
 
         <Route

@@ -76,6 +76,7 @@ export default function RequestForm (props) {
         if (data.error) {
           alert(data.error);
         } else {
+          props.handleRequest(data)
           history.push("/");
         }
       });

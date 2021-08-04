@@ -10,7 +10,7 @@ export default function Home(props) {
         <>
           <h1>
             {" "}
-            Welcome to The Foundation. In memory of the late Jack Welshler
+            Welcome to The Foundation.
           </h1>
           <h3>
             We are a non-profit organization dedicated to providing financial

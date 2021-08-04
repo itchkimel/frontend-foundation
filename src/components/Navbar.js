@@ -41,6 +41,9 @@ export default function Navbar(props) {
 
           {props.token !== "" ? (
             <>
+              <Button color="inherit" component={Link} to="/request-form">
+                New Requests
+              </Button>
               <Button color="inherit" component={Link} to="/request-list">
                 Your Requests
               </Button>
