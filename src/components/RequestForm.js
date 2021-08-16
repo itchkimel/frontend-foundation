@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
-import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch } from 'react-instantsearch-dom';
+import algoliasearch from "algoliasearch/lite";
+import { InstantSearch } from "react-instantsearch-dom";
 import Places from "../algolia/widget";
-
 
 import {
   Button,
@@ -12,7 +11,7 @@ import {
   MenuItem,
   Select,
   InputLabel,
-  makeStyles
+  makeStyles,
 } from "@material-ui/core";
 // import { makeStyles } from "@material-ui/core/styles";
 
@@ -35,11 +34,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const searchClient = algoliasearch(
-  'latency',
-  '6be0576ff61c053d5f9a3225e2a90f76'
+  "latency",
+  "6be0576ff61c053d5f9a3225e2a90f76"
 );
 
-export default function RequestForm (props) {
+export default function RequestForm(props) {
   console.log(props.token);
   const classes = useStyles();
   const history = useHistory();
@@ -53,7 +52,7 @@ export default function RequestForm (props) {
     reason_header: "",
     reason_body: "",
     amount: 0,
-    auto_address: ""
+    auto_address: "",
   });
 
   function handleChange(e) {
@@ -66,7 +65,7 @@ export default function RequestForm (props) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.token}`
+        Authorization: `Bearer ${localStorage.token}`,
       },
       body: JSON.stringify(formData),
     })
@@ -76,8 +75,8 @@ export default function RequestForm (props) {
         if (data.error) {
           alert(data.error);
         } else {
-          props.handleRequest(data)
-          history.push("/");
+          props.handleRequest(data);
+          history.push("/request-list");
         }
       });
   }
@@ -170,23 +169,25 @@ export default function RequestForm (props) {
         value={formData.amount}
         onChange={handleChange}
       />
-      <div name="auto_address" required value={formData.auto_address} onChange={handleChange}>
-      <InstantSearch onSelect={console.log} searchClient={searchClient}>
-        <Places
-          defaultRefinement={{
-            lat: 37.7793,
-            lng: -122.419
-          }}
-          handleChange={handleChange}
+      <div
+        name="auto_address"
+        required
+        value={formData.auto_address}
+        onChange={handleChange}
+      >
+        <InstantSearch onSelect={console.log} searchClient={searchClient}>
+          <Places
+            defaultRefinement={{
+              lat: 37.7793,
+              lng: -122.419,
+            }}
+            handleChange={handleChange}
           />
-      </InstantSearch>
+        </InstantSearch>
       </div>
-        {/* <Button variant="contained" component={Link} to="/">
-          Review
-        </Button> */}
-        <Button type="submit" variant="contained" color="primary">
-          Submit Request
-        </Button>
+      <Button type="submit" variant="contained" color="primary">
+        Submit Request
+      </Button>
     </form>
   );
 }

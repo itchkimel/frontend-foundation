@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
+import Team from "./components/Team";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import RequestForm from "./components/RequestForm";
@@ -59,8 +60,14 @@ export default function App() {
   }
 
   function handleRequest(req) {
-    // copying state then 
+    // copying state then in the request array spread the users requests with the new request
   let copyOfUser = {...user, requests: [...user.requests, req]}
+  setUser(copyOfUser)
+  }
+
+  function handleDelete(req) {
+    // copying state then in the request array filter out the incoming request from the delete
+    let copyOfUser = {...user, requests: user.requests.filter(r => r.id !== req.id)}
   setUser(copyOfUser)
   }
   
@@ -94,7 +101,12 @@ export default function App() {
 
         <Route
           exact path="/request-list"
-          render={(routerProps) => <RequestList {...user} token={token} />}
+          render={(routerProps) => <RequestList {...user} token={token} handleDelete={handleDelete} />}
+        />
+        
+        <Route
+          exact path="/team"
+          render={(routerProps) => <Team />}
         />
 
         <Route

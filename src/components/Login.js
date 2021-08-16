@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import { useHistory } from "react-router";
+// import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 // import { useForm } from "react-hook-form";
-import { Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Radio,
+  RadioGroup,
+  FormControlLabel,
+  FormControl,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -25,13 +32,12 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Login(props) {
   const classes = useStyles();
-  // const history = useHistory();
 
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-    user: "User"
+    user: "User",
   });
 
   function handleChange(e) {
@@ -52,15 +58,6 @@ export default function Login(props) {
         .then(props.handleResponse);
     } else {
       alert("User is Admin");
-      // fetch("http://localhost:3000/users/login", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // })
-      //   .then((r) => r.json())
-      //   .then(props.handleResponse);    
     }
   }
 
@@ -93,9 +90,18 @@ export default function Login(props) {
         onChange={handleChange}
       />
       <FormControl component="fieldset">
-        <RadioGroup name="user" value={formData.user} onChange={handleChange}>
+        <RadioGroup
+          name="user"
+          value={formData.user}
+          onChange={handleChange}
+          row
+        >
           <FormControlLabel value="User" control={<Radio />} label="User" />
-          <FormControlLabel value="Admin" control={<Radio />} label="Admin" />
+          <FormControlLabel
+            value="Admin"
+            control={<Radio />}
+            label="Admin (under construction)"
+          />
         </RadioGroup>
       </FormControl>
       <div>

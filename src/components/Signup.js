@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
 // import { useForm } from "react-hook-form";
-import { Button, TextField} from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,6 @@ export default function Signup(props) {
   const classes = useStyles();
   const history = useHistory();
 
-
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -48,9 +47,7 @@ export default function Signup(props) {
       body: JSON.stringify(formData),
     })
       .then((r) => r.json())
-      .then(props.handleResponse, 
-        history.push("/request-form")
-      );
+      .then(props.handleResponse, history.push("/request-form"));
   }
 
   return (

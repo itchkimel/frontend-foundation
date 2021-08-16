@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+.home {
+  margin: 50px 100px;
+  line-height: 1.5;
+}
+
+.title {
+  font-size: 4em;
+  font-weight: 700;
+}
